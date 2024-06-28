@@ -9,7 +9,7 @@
                 "\n1) Сложение (+) \n2) Вычитание (-) \n3) Умножение (*) " +
                 "\n4) Деление(/) \n5) А также отмена операции (z) " +
                 "\nВведите тип операции с помощью символа, а затем введите число." +
-                "\nЧтобы выйти из цикла используйте q." +
+                "\nЧтобы выйти из цикла используйте q или введите пустую строку." +
                 "\nНо для начала задайте значение, с которым будут проводиться операции." +
                 "\n");
 
@@ -52,12 +52,16 @@
             }
 
             Console.WriteLine("Калькулятор завершил работу. Пока!");
+
+            calc.GotResult -= Calculator_GoResult;
+
             Console.ReadKey(true);
         }
         static string Ask(string text)
         {
             Console.WriteLine(text);
-            return Console.ReadLine() ?? "";
+            string line = Console.ReadLine() ?? "";
+            return line == "" ? "q" : line;
         }
         static void Calculator_GoResult(object? sender, string args)
         {
