@@ -13,7 +13,7 @@
                 "\nНо для начала задайте значение, с которым будут проводиться операции." +
                 "\n");
 
-            var calc = new Calculator(int.TryParse(Console.ReadLine(), out int startValue) ? startValue : 0);
+            var calc = new Calculator(double.TryParse(Console.ReadLine(), out double startValue) ? startValue : 0);
 
             calc.GotResult += Calculator_GoResult;
 
@@ -35,14 +35,14 @@
                 }
                 else if (args.Length == 2)
                 {
-                    if (int.TryParse(args[1], out int res))
+                    if (double.TryParse(args[1], out double res))
                     {
                         switch (args[0])
                         {
-                            case "+": calc.Sum(res); break;
-                            case "-": calc.Substract(res); break;
-                            case "*": calc.Multiply(res); break;
-                            case "/": calc.Divide(res); break;
+                            case "+": Execute(calc.Sum, res); break;
+                            case "-": Execute(calc.Substract, res); break;
+                            case "*": Execute(calc.Multiply, res); break;
+                            case "/": Execute(calc.Divide, res); break;
                             default: Console.WriteLine("Вы что-то перепутали! Такой операции нет."); break;
                         }
                         continue;
@@ -62,6 +62,21 @@
             Console.WriteLine(text);
             string line = Console.ReadLine() ?? "";
             return line == "" ? "q" : line;
+        }
+        static void Execute(Action<double> action, double value = 1)
+        {
+            try
+            {
+                action?.Invoke(value);
+            }
+            catch (CalculatorDivideByZeroException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (CalculatorOperationCauseOverflowException ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
         static void Calculator_GoResult(object? sender, string args)
         {

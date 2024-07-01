@@ -3,10 +3,10 @@
     internal interface ICalc
     {
         event EventHandler<string> GotResult;
-        void Sum(int value);
-        void Substract(int value);
-        void Multiply(int value);
-        void Divide(int value);
+        void Sum(double value);
+        void Substract(double value);
+        void Multiply(double value);
+        void Divide(double value);
         void CancelLast();
     }
 }
